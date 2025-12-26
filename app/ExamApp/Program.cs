@@ -1,6 +1,7 @@
-﻿int n = 0;
+﻿using ExamApp;
+
 EnterNumberOfDot();
-double[,] matrix = new double[n,n];
+double[,] matrix = new double[Class1.n, Class1.n];
 InitMatrix();
 SearchShortestDistanse();
 
@@ -11,11 +12,11 @@ SearchShortestDistanse();
 void EnterNumberOfDot()
 {
     int numberOfDot = 9; //количество точек на карте
-    while (n != numberOfDot)
+    while (Class1.n != numberOfDot)
     {
         Console.Write("Введите количество точек на карте: ");
-        n = int.Parse(Console.ReadLine());
-        if (n == numberOfDot)
+        Class1.n = int.Parse(Console.ReadLine());
+        if (Class1.n == numberOfDot)
         {
             break;
         }
@@ -45,9 +46,9 @@ void InitMatrix()
         matrix[n1 - 1,n2 - 1] = distanse;
         matrix[n2 - 1,n1 - 1] = distanse;
     }
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < Class1.n; i++)
     {
-        for (int j = 0; j < n; j++)
+        for (int j = 0; j < Class1.n; j++)
         {
             if (matrix[i,j] == 0)
             {
@@ -72,53 +73,8 @@ void SearchShortestDistanse()
             n2 = int.Parse(Console.ReadLine());
             if (n2 == 0)
                 break;
-            double[] shortestDistanse = Dijkstra(matrix, n1 - 1);
+            double[] shortestDistanse = Class1.Dijkstra(matrix, n1 - 1);
             Console.WriteLine($"Кратчайшее растояние между вершинами {n1} и {n2} = {shortestDistanse[n2 - 1]}");
         }
-    }
-
-
-
-
-
-
-    /*Реализация алгоритма Дейкстры для поиска кратчайших путей во взвешенном графе.
-     * Входные данные:      а - матрица инцидентности взвешенного графа
-     *                      v0 - номер вершины, для которой вычисляются кратчайшие расстояния
-     *                           до остальных вершин
-     * Выходные данные:     одномерный массив кратчайших расстояний от вершины а 
-     *                      до каждой из вершин графа (включая саму вершину а)
-    */
-
-    double[] Dijkstra(double[,] a, int v0)
-    {
-        double[] dist = new double[n];
-        bool[] vis = new bool[n];
-        int unvis = n;
-        int v;
-
-        for (int i = 0; i < n; i++)
-            dist[i] = Double.MaxValue;
-        dist[v0] = 0.0;
-
-        while (unvis > 0)
-        {
-            v = -1;
-            for (int i = 0; i < n; i++)
-            {
-                if (vis[i])
-                    continue;
-                if ((v == -1) || (dist[v] > dist[i]))
-                    v = i;
-            }
-            vis[v] = true;
-            unvis--;
-            for (int i = 0; i < n; i++)
-            {
-                if (dist[i] > dist[v] + a[v, i])
-                    dist[i] = dist[v] + a[v, i];
-            }
-        }
-        return dist;
     }
 }
